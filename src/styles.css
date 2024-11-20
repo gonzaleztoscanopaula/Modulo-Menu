@@ -1,0 +1,35 @@
+/* styles.css */
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background-color: #f5f5f5;
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 600px) {
+  img {
+    max-width: 100%;
+    height: auto; /* Asegura proporciones correctas */
+  }
+
+  button {
+    width: 100%; /* Botones ocupan todo el ancho en pantallas pequeñas */
+    font-size: 14px; /* Texto más pequeño */
+    font-family: "Sour Gummy";
+  }
+  
+  h2 {
+    margin-top: 0;
+  }
+  
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+  
+  button {
+    cursor: pointer;
+  }
+  
+
+}

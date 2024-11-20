@@ -3,13 +3,18 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import './styles.css';
+import { ResumenProvider } from './components/ResumenContext'; // Importa el contexto correctamente.
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
-    <App />
+    <ResumenProvider> {/* Envuelve App con el proveedor */}
+      <App />
+    </ResumenProvider>
   </React.StrictMode>
 );
 
