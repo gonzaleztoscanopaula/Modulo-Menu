@@ -33,12 +33,34 @@ const HistoriasMozos = () => {
   };
 
   return (
-    <Box style={{ marginTop: "20px", backgroundColor: "#DDC5A1", padding: "20px" }}>
-      <Typography variant="h5" style={{ fontWeight: "bold", fontSize: "24px", marginBottom: "10px", marginLeft: "20px" }}>
+    <Box
+      style={{
+        marginTop: "20px",
+        backgroundColor: "#DDC5A1",
+        padding: "20px",
+        overflow: "hidden",
+      }}
+    >
+      <Typography
+        variant="h5"
+        style={{
+          fontWeight: "bold",
+          fontSize: "24px",
+          marginBottom: "10px",
+          marginLeft: "20px",
+        }}
+      >
         Antes de realizar el pedido, conocenos un poco...
       </Typography>
 
-      <Typography variant="body1" style={{ fontSize: "16px", marginBottom: "30px", marginLeft: "20px" }}>
+      <Typography
+        variant="body1"
+        style={{
+          fontSize: "16px",
+          marginBottom: "30px",
+          marginLeft: "20px",
+        }}
+      >
         Seleccione sus perfiles para conocerlos mejor.
       </Typography>
 
@@ -54,20 +76,47 @@ const HistoriasMozos = () => {
         </Typography>
       )}
 
-      <Box style={{ display: "flex", justifyContent: "space-around" }}>
+      {/* Contenedor para las historias */}
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          flexWrap: "wrap",
+          gap: "20px",
+          marginBottom: "30px",
+        }}
+      >
         {mozos.map((mozo) => (
-          <Box key={mozo.id} onClick={() => setMozoSeleccionado(mozo)} style={{ textAlign: "center", cursor: "pointer" }}>
+          <Box
+            key={mozo.id}
+            onClick={() => setMozoSeleccionado(mozo)}
+            style={{
+              textAlign: "center",
+              cursor: "pointer",
+              maxWidth: "200px", // Tamaño máximo en pantallas grandes
+              width: "30%", // Asegura que haya espacio entre las historias en pantallas pequeñas
+            }}
+          >
             <img
               src={mozo.imagen}
               alt={mozo.nombre}
               style={{
                 borderRadius: "50%",
-                width: "300px",
-                height: "300px",
+                width: "150px",
+                height: "150px",
                 objectFit: "cover",
+                marginBottom: "10px",
               }}
             />
-            <Typography style={{ marginTop: "10px", fontWeight: "bold", fontSize: "16px" }}>
+            <Typography
+              style={{
+                fontWeight: "bold",
+                fontSize: "14px",
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+              }}
+            >
               {mozo.nombre}
             </Typography>
           </Box>
@@ -75,14 +124,30 @@ const HistoriasMozos = () => {
       </Box>
 
       <Box style={{ marginTop: "40px", textAlign: "center" }}>
-        <Typography variant="h5" style={{ fontWeight: "bold", fontSize: "24px", marginBottom: "10px", marginLeft: "20px" }}>
+        <Typography
+          variant="h5"
+          style={{
+            fontWeight: "bold",
+            fontSize: "24px",
+            marginBottom: "10px",
+            marginLeft: "20px",
+          }}
+        >
           Realizar Pedido
         </Typography>
-        <Typography variant="body1" style={{ fontSize: "16px", marginBottom: "30px", marginLeft: "20px" }}>
+        <Typography
+          variant="body1"
+          style={{
+            fontSize: "16px",
+            marginBottom: "30px",
+            marginLeft: "20px",
+          }}
+        >
           Seleccione la categoría de su preferencia
         </Typography>
       </Box>
 
+      {/* Modal con detalles del mozo seleccionado */}
       <Modal open={!!mozoSeleccionado} onClose={handleClose}>
         <Box
           style={{
@@ -100,7 +165,7 @@ const HistoriasMozos = () => {
           }}
         >
           {mozoSeleccionado && (
-            <Paper elevation={3} style={{ padding: "20px", textAlign: "center", backgroundColor: "#fff" }}>
+            <Paper elevation={3} style={{ padding: "20px", textAlign: "center" }}>
               <img
                 src={mozoSeleccionado.imagen}
                 alt={mozoSeleccionado.nombre}

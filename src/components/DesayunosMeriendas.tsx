@@ -1,14 +1,21 @@
 import React from "react";
 
+interface Item {
+  id: number;
+  nombre: string;
+  precio: number;
+  cantidad: number;
+}
+
 interface DesayunosMeriendasProps {
-  addToCart: (item: { id: number; nombre: string; precio: number; cantidad: number }) => void;
+  addToCart: (item: Item) => void;
 }
 
 const DesayunosMeriendas: React.FC<DesayunosMeriendasProps> = ({ addToCart }) => {
   const desayunosMeriendas = [
-    { id: 6, nombre: "Café", precio: 2.0 },
-    { id: 7, nombre: "Tostado", precio: 3.5 },
-    { id: 8, nombre: "Medialuna", precio: 1.2 },
+    { id: 7, nombre: "Café", precio: 2.0 },
+    { id: 8, nombre: "Tostado", precio: 3.5 },
+    { id: 9, nombre: "Medialuna", precio: 1.2 },
   ];
 
   return (

@@ -1,6 +1,7 @@
+// ResumenContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
-// Define los tipos de los items
+// Definir los tipos de los items
 interface Item {
   id: number;
   nombre: string;
@@ -10,11 +11,11 @@ interface Item {
 
 // Tipo del contexto
 interface ResumenContextType {
-  resumen: Record<number, Item>; // Usamos un objeto para manejar los items
+  resumen: Record<number, Item>;
   agregarItem: (item: Item) => void;
 }
 
-// Crear contexto
+// Crear el contexto
 const ResumenContext = createContext<ResumenContextType | undefined>(undefined);
 
 // Props del proveedor

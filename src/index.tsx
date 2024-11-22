@@ -10,12 +10,10 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-root.render(
-  <React.StrictMode>
-    <ResumenProvider> {/* Envuelve App con el proveedor */}
-      <App />
-    </ResumenProvider>
-  </React.StrictMode>
+root.render(  // Aquí usas `root.render` en vez de `ReactDOM.render`
+  <ResumenProvider>
+    <App />
+  </ResumenProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
