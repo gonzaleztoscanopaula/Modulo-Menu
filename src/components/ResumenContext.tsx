@@ -1,4 +1,3 @@
-// ResumenContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 // Definir los tipos de los items
@@ -13,6 +12,7 @@ interface Item {
 interface ResumenContextType {
   resumen: Record<number, Item>;
   agregarItem: (item: Item) => void;
+  eliminarItem: (id: number) => void; // Nueva función
 }
 
 // Crear el contexto
@@ -45,8 +45,17 @@ export const ResumenProvider: React.FC<ResumenProviderProps> = ({ children }) =>
     });
   };
 
+  // Función para eliminar un item
+  const eliminarItem = (id: number) => {
+    setResumen((prev) => {
+      const nuevoResumen = { ...prev };
+      delete nuevoResumen[id];
+      return nuevoResumen;
+    });
+  };
+
   return (
-    <ResumenContext.Provider value={{ resumen, agregarItem }}>
+    <ResumenContext.Provider value={{ resumen, agregarItem, eliminarItem }}>
       {children}
     </ResumenContext.Provider>
   );

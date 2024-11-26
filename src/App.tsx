@@ -7,12 +7,14 @@ import NavBar from "./components/NavBar";
 import HistoriasMozos from "./components/HistoriasMozos";
 import Categorias from "./components/Categorias";
 import { useResumen } from "./components/ResumenContext";
-import { IconButton, Badge } from "@mui/material";
+import { IconButton, Badge, Modal, Box } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const App: React.FC = () => {
-  const { resumen } = useResumen(); // Usamos el contexto para acceder al carrito
-  const [carritoAbierto, setCarritoAbierto] = useState(false); // Controlar el estado de apertura/cierre del carrito
+  const { resumen, eliminarItem } = useResumen();
+  const [carritoAbierto, setCarritoAbierto] = useState(false);
+  const [metodoPago, setMetodoPago] = useState("efectivo"); // Estado para el método de pago
+  const [modalAbierto, setModalAbierto] = useState(false); // Estado para el modal de confirmación
 
   // Función para calcular el total del carrito
   const calcularTotal = () => {
@@ -27,8 +29,16 @@ const App: React.FC = () => {
     setCarritoAbierto(!carritoAbierto);
   };
 
+  // Función para manejar el cierre del modal
+  const handleCloseModal = () => {
+    setModalAbierto(false);
+  };
+
   // Calcular el número total de productos en el carrito
-  const totalProductos = Object.values(resumen).reduce((total, item) => total + item.cantidad, 0);
+  const totalProductos = Object.values(resumen).reduce(
+    (total, item) => total + item.cantidad,
+    0
+  );
 
   return (
     <Router>
@@ -70,7 +80,7 @@ const App: React.FC = () => {
           <div
             style={{
               position: "fixed",
-              bottom: "80px", // Un poco por encima del ícono del carrito
+              bottom: "80px",
               right: "20px",
               backgroundColor: "#fff",
               padding: "20px",
@@ -92,6 +102,7 @@ const App: React.FC = () => {
                       style={{
                         display: "flex",
                         justifyContent: "space-between",
+                        alignItems: "center",
                         marginBottom: "10px",
                         borderBottom: "1px solid #ddd",
                         paddingBottom: "10px",
@@ -100,12 +111,66 @@ const App: React.FC = () => {
                       <div>
                         <strong>{item.nombre}</strong> x {item.cantidad}
                       </div>
-                      <div>${(item.cantidad * item.precio).toFixed(2)}</div>
+                      <div>
+                        <span style={{ marginRight: "10px" }}>
+                          ${(item.cantidad * item.precio).toFixed(2)}
+                        </span>
+                        <button
+                          onClick={() => eliminarItem(item.id)} // Eliminar producto
+                          style={{
+                            backgroundColor: "#ff4d4f",
+                            color: "#fff",
+                            border: "none",
+                            borderRadius: "5px",
+                            padding: "5px 10px",
+                            cursor: "pointer",
+                          }}
+                        >
+                          Eliminar
+                        </button>
+                      </div>
                     </li>
                   ))}
                 </ul>
                 <hr />
                 <h3>Total: ${calcularTotal().toFixed(2)}</h3>
+
+                {/* Selector de método de pago */}
+                <div style={{ marginBottom: "10px" }}>
+                  <label htmlFor="metodoPago" style={{ marginRight: "10px" }}>
+                    Método de pago:
+                  </label>
+                  <select
+                    id="metodoPago"
+                    value={metodoPago}
+                    onChange={(e) => setMetodoPago(e.target.value)}
+                    style={{
+                      padding: "5px",
+                      borderRadius: "5px",
+                      border: "1px solid #ddd",
+                    }}
+                  >
+                    <option value="efectivo">Efectivo</option>
+                    <option value="debito">Débito</option>
+                    <option value="credito">Crédito</option>
+                  </select>
+                </div>
+
+                {/* Botón para confirmar pedido */}
+                <button
+                  onClick={() => setModalAbierto(true)} // Abrir el modal al confirmar
+                  style={{
+                    width: "100%",
+                    padding: "10px",
+                    backgroundColor: "#4CAF50",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "8px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Confirmar Pedido
+                </button>
               </div>
             ) : (
               <p>Tu carrito está vacío. 😞</p>
@@ -127,6 +192,52 @@ const App: React.FC = () => {
             </button>
           </div>
         )}
+
+        {/* Modal de confirmación */}
+        <Modal
+          open={modalAbierto}
+          onClose={handleCloseModal}
+          aria-labelledby="modal-title"
+          aria-describedby="modal-description"
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              backgroundColor: "#fff",
+              border: "1px solid #ddd",
+              borderRadius: "8px",
+              boxShadow: 24,
+              padding: "20px",
+              maxWidth: "400px",
+              textAlign: "center",
+            }}
+          >
+            <h2 id="modal-title">¡Pedido Confirmado! 🎉</h2>
+            <p id="modal-description">
+              Total a pagar: <strong>${calcularTotal().toFixed(2)}</strong>
+            </p>
+            <p>
+              Método de pago: <strong>{metodoPago}</strong>
+            </p>
+            <button
+              onClick={handleCloseModal}
+              style={{
+                padding: "10px",
+                backgroundColor: "#A39986",
+                color: "#fff",
+                border: "none",
+                borderRadius: "8px",
+                cursor: "pointer",
+                marginTop: "10px",
+              }}
+            >
+              Cerrar
+            </button>
+          </Box>
+        </Modal>
       </div>
     </Router>
   );
