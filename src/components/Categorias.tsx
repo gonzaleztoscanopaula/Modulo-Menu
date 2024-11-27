@@ -1,28 +1,33 @@
 import React, { useState } from "react";
-import { Box, Button, Badge, IconButton } from "@mui/material";
+import { Box, Button, Badge, IconButton, Typography } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { useResumen } from "./ResumenContext";
 import Bebidas from "./Bebidas";
 import Comidas from "./Comidas";
 import DesayunosMeriendas from "./DesayunosMeriendas";
-import { useResumen } from "./ResumenContext";
 
-const Categorias = () => {
+const Categorias: React.FC = () => {
   const [categoriaActiva, setCategoriaActiva] = useState<string | null>(null);
-  const [carritoAbierto, setCarritoAbierto] = useState(false); // Estado para controlar si el carrito está abierto o cerrado
+  const [carritoAbierto, setCarritoAbierto] = useState(false);
   const { resumen, agregarItem } = useResumen();
 
-  // Función para manejar la categoría activa
   const handleMostrarCategoria = (categoria: string) => {
     setCategoriaActiva(categoria === categoriaActiva ? null : categoria);
   };
 
-  // Función para manejar la apertura y cierre del carrito
-  const toggleCarrito = () => {
-    setCarritoAbierto(!carritoAbierto);
+  const toggleCarrito = () => setCarritoAbierto(!carritoAbierto);
+
+  const calcularTotal = () => {
+    return Object.values(resumen).reduce(
+      (total, item) => total + item.cantidad * item.precio,
+      0
+    );
   };
 
-  // Calcular el número total de productos en el carrito
-  const totalProductos = Object.values(resumen).reduce((total, item) => total + item.cantidad, 0);
+  const totalProductos = Object.values(resumen).reduce(
+    (total, item) => total + item.cantidad,
+    0
+  );
 
   return (
     <Box
@@ -35,11 +40,15 @@ const Categorias = () => {
         backgroundColor: "#DDC5A1",
       }}
     >
-      {/* Contenedor de los botones, que se alinea en fila */}
+      <Typography variant="h4" gutterBottom>
+        ¡Elige tu categoría favorita! 🍽️🍹
+      </Typography>
+
+      {/* Contenedor de los botones de categorías */}
       <Box
         sx={{
           display: "flex",
-          justifyContent: "center", // Centra los botones horizontalmente
+          justifyContent: "center", // Centra los botones
           gap: "15px", // Espacio entre los botones
           width: "100%",
           flexWrap: "wrap", // Asegura que los botones se ajusten en pantallas pequeñas
@@ -51,7 +60,7 @@ const Categorias = () => {
           sx={{
             backgroundColor: "#A39986",
             color: "#000",
-            width: "230px",
+            width: "260px",
             height: "50px",
             fontWeight: "bold",
             fontSize: "16px",
@@ -61,7 +70,7 @@ const Categorias = () => {
           }}
           aria-label="Ir a Desayunos/Meriendas"
         >
-          Desayunos/Meriendas
+          🥞 Desayunos/Meriendas
         </Button>
 
         {/* Botón Comidas */}
@@ -80,7 +89,7 @@ const Categorias = () => {
           }}
           aria-label="Ir a Comidas"
         >
-          Comidas
+          🍴 Comidas
         </Button>
 
         {/* Botón Bebidas */}
@@ -99,7 +108,7 @@ const Categorias = () => {
           }}
           aria-label="Mostrar Bebidas"
         >
-          Bebidas
+          🥤 Bebidas
         </Button>
       </Box>
 
@@ -136,11 +145,9 @@ const Categorias = () => {
         }}
         onClick={toggleCarrito}
       >
-        {/* Mostrar el número de productos en rojo */}
         <Badge
           badgeContent={totalProductos > 0 ? totalProductos : null}
           color="error"
-          sx={{ "& .MuiBadge-dot": { backgroundColor: "#f44336" } }}
         >
           <ShoppingCartIcon fontSize="large" />
         </Badge>
@@ -151,7 +158,7 @@ const Categorias = () => {
         <Box
           sx={{
             position: "fixed",
-            bottom: "80px", // Ubicación del carrito cuando está abierto
+            bottom: "80px",
             right: "20px",
             backgroundColor: "#fff",
             padding: "20px",
@@ -160,10 +167,12 @@ const Categorias = () => {
             width: "250px",
             zIndex: 1000,
             maxHeight: "400px",
-            overflowY: "auto", // Añadido para hacer scroll en caso de que haya muchos items
+            overflowY: "auto",
           }}
         >
-          <h3>🛒 Carrito</h3>
+          <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+            🛒 Carrito
+          </Typography>
           {Object.values(resumen).length > 0 ? (
             <div>
               <ul style={{ listStyle: "none", padding: 0 }}>
@@ -186,10 +195,9 @@ const Categorias = () => {
                 ))}
               </ul>
               <hr />
-              <h3>Total: ${Object.values(resumen).reduce(
-                (total, item) => total + item.cantidad * item.precio,
-                0
-              ).toFixed(2)}</h3>
+              <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                Total: ${calcularTotal().toFixed(2)} 💰
+              </Typography>
             </div>
           ) : (
             <p>Tu carrito está vacío. 😞</p>
@@ -200,7 +208,7 @@ const Categorias = () => {
             onClick={toggleCarrito}
             sx={{ width: "100%", marginTop: "10px" }}
           >
-            Cerrar
+            Cerrar ❌
           </Button>
         </Box>
       )}

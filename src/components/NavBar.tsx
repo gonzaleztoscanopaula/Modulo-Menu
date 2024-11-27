@@ -1,59 +1,90 @@
-import React, { useState } from 'react';
-import { AppBar, Box, Toolbar, IconButton, Typography, Drawer, List, ListItemButton, ListItemText } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import React from "react";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Drawer,
+  List,
+  ListItemButton,
+  ListItemText,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import { useNavigate } from "react-router-dom"; // Importar useNavigate
 
-const NavBar = () => {
-  // Estado para controlar la apertura y cierre del menú
-  const [open, setOpen] = useState(false);
+const NavBar: React.FC = () => {
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const navigate = useNavigate(); // Usar useNavigate
 
-  // Función para abrir el menú
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  // Función para cerrar el menú
-  const handleDrawerClose = () => {
-    setOpen(false);
+  const toggleDrawer = (open: boolean) => {
+    setDrawerOpen(open);
   };
 
   return (
     <Box>
-      {/* Barra de navegación */}
-      <AppBar position="static" style={{ backgroundColor: '#EEDEB8' }}> {/* Fondo del AppBar sin cambiar */}
-        <Toolbar>
-          {/* Logo */}
-          <Typography variant="h6" style={{ flexGrow: 1 }}>
-            <img src="/logo.png" alt="Sosneado" style={{ height: '80px' }} />
+      <AppBar position="static" sx={{ backgroundColor: "#EEDEB8" }}>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+          {/* Logo y título */}
+          <Typography variant="h6" sx={{ display: "flex", alignItems: "center" }}>
+            <img
+              src="/logo.png"
+              alt="Sosneado"
+              style={{ height: "80px", marginRight: "10px" }}
+            />
           </Typography>
 
-          {/* Icono del menú hamburguesa con color negro */}
-          <IconButton edge="end" onClick={handleDrawerOpen}>
-            <MenuIcon style={{ color: '#000000' }} /> {/* Solo el icono negro */}
+          {/* Botón de menú hamburguesa */}
+          <IconButton edge="end" onClick={() => toggleDrawer(true)}>
+            <MenuIcon sx={{ color: "#000000" }} />
           </IconButton>
         </Toolbar>
       </AppBar>
 
-      {/* Drawer: Menú hamburguesa */}
-      <Drawer anchor="right" open={open} onClose={handleDrawerClose}>
+      {/* Drawer del menú */}
+      <Drawer
+        anchor="right"
+        open={drawerOpen}
+        onClose={() => toggleDrawer(false)}
+        sx={{
+          "& .MuiDrawer-paper": {
+            backgroundColor: "#EEDEB8",
+            padding: "20px",
+            boxSizing: "border-box",
+          },
+        }}
+      >
         <Box
           role="presentation"
-          style={{ width: 250, backgroundColor: '#EEDEB8', height: '100%' }}
-          onClick={handleDrawerClose}
-          onKeyDown={handleDrawerClose}
+          sx={{ height: "100%", padding: "10px" }}
+          onClick={() => toggleDrawer(false)}
+          onKeyDown={() => toggleDrawer(false)}
         >
-          <List>
-            {/* Usando ListItemButton para los elementos del menú */}
-            <ListItemButton>
-              <ListItemText primary="Inicio" />
+          <List sx={{ padding: 0 }}>
+            <ListItemButton onClick={() => navigate("/")}>
+              <ListItemText primary="🏠 Inicio" />
             </ListItemButton>
-            <ListItemButton>
-              <ListItemText primary="Historial de Pedidos" />
+            <ListItemButton onClick={() => navigate("/historial")}>
+              <ListItemText primary="📜 Historial de Pedidos" />
             </ListItemButton>
-            <ListItemButton>
-              <ListItemText primary="Mesas" />
+            <ListItemButton onClick={() => navigate("/quienes-somos")}>
+              <ListItemText primary="👥 ¿Quiénes Somos?" />
             </ListItemButton>
-            <ListItemButton>
-              <ListItemText primary="Pedidos Pendientes" />
+            <ListItemButton onClick={() => navigate("/colabora-con-nosotros")}>
+              <ListItemText primary="🤝 Colabora con Nosotros" />
+            </ListItemButton>
+            <ListItemButton onClick={() => navigate("/desarrolladoras")}>
+              <ListItemText primary="💻 Desarrolladoras" />
+            </ListItemButton>
+            <ListItemButton
+              component="a"
+              href="https://www.instagram.com/coopdetrabajogenerandosonrisas/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <InstagramIcon sx={{ color: "#000000", marginRight: "10px" }} />
+              <ListItemText primary="Instagram" />
             </ListItemButton>
           </List>
         </Box>

@@ -37,18 +37,23 @@ const Bebidas: React.FC<BebidasProps> = ({ addToCart }) => {
   ];
 
   return (
-    <div>
-      <h2>Bebidas</h2>
+    <div style={{ padding: "20px" }}>
+      <h2 style={{ textAlign: "center", color: "#333" }}>
+        🥤 **Bebidas** para Todos ¡Elige tu Favorita! 🍹
+      </h2>
       {bebidas.map((bebida) => (
         <div
           key={bebida.id}
           style={{
             display: "flex",
             alignItems: "center",
-            marginBottom: "10px",
+            marginBottom: "15px",
             border: "1px solid #ddd",
-            borderRadius: "5px",
-            padding: "10px",
+            borderRadius: "12px",
+            padding: "15px",
+            backgroundColor: "#f9f9f9",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            transition: "transform 0.3s ease",
           }}
         >
           {/* Imagen del producto */}
@@ -56,17 +61,17 @@ const Bebidas: React.FC<BebidasProps> = ({ addToCart }) => {
             src={bebida.imagen}
             alt={bebida.nombre}
             style={{
-              width: "50px",
-              height: "50px",
+              width: "60px",
+              height: "60px",
               objectFit: "cover",
-              borderRadius: "5px",
-              marginRight: "10px",
+              borderRadius: "10px",
+              marginRight: "20px",
             }}
           />
           {/* Información del producto */}
           <div style={{ flex: 1 }}>
-            <span>
-              <strong>{bebida.nombre}</strong> - ${bebida.precio.toFixed(2)}
+            <span style={{ fontSize: "18px", fontWeight: "bold" }}>
+              {bebida.nombre} 🍻 - <span style={{ fontWeight: "normal" }}>${bebida.precio.toFixed(2)}</span>
             </span>
           </div>
           {/* Botón para añadir al carrito */}
@@ -76,12 +81,15 @@ const Bebidas: React.FC<BebidasProps> = ({ addToCart }) => {
               backgroundColor: "#4CAF50",
               color: "#fff",
               border: "none",
-              borderRadius: "5px",
-              padding: "5px 10px",
+              borderRadius: "8px",
+              padding: "8px 15px",
               cursor: "pointer",
+              fontSize: "16px",
+              fontWeight: "bold",
+              transition: "background-color 0.3s",
             }}
           >
-            Añadir al carrito
+            Añadir al carrito 🛒
           </button>
         </div>
       ))}

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Modal, Paper } from "@mui/material";
+import { Box, Typography, Modal, Paper, IconButton } from "@mui/material";
+import { Close as CloseIcon } from "@mui/icons-material";
 
 // Definimos el tipo para los mozos
 interface Mozo {
@@ -36,7 +37,7 @@ const HistoriasMozos = () => {
     <Box
       style={{
         marginTop: "20px",
-        backgroundColor: "#DDC5A1",
+        backgroundColor: "#DDC5A1", // Manteniendo el fondo con el color especificado
         padding: "20px",
         overflow: "hidden",
       }}
@@ -50,7 +51,7 @@ const HistoriasMozos = () => {
           marginLeft: "20px",
         }}
       >
-        Antes de realizar el pedido, conocenos un poco...
+        Conoce a nuestros mozos 🤩
       </Typography>
 
       <Typography
@@ -61,7 +62,7 @@ const HistoriasMozos = () => {
           marginLeft: "20px",
         }}
       >
-        Seleccione sus perfiles para conocerlos mejor.
+        ¡Haz clic en las imágenes para conocer sus historias! 🎉
       </Typography>
 
       {loading && (
@@ -95,6 +96,10 @@ const HistoriasMozos = () => {
               cursor: "pointer",
               maxWidth: "200px", // Tamaño máximo en pantallas grandes
               width: "30%", // Asegura que haya espacio entre las historias en pantallas pequeñas
+              padding: "10px",
+              backgroundColor: "#fff",
+              borderRadius: "8px",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
             }}
           >
             <img
@@ -106,45 +111,34 @@ const HistoriasMozos = () => {
                 height: "150px",
                 objectFit: "cover",
                 marginBottom: "10px",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
               }}
             />
             <Typography
               style={{
                 fontWeight: "bold",
+                fontSize: "16px",
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                marginBottom: "5px",
+              }}
+            >
+              {mozo.nombre}
+            </Typography>
+            <Typography
+              style={{
                 fontSize: "14px",
+                color: "#888",
                 textOverflow: "ellipsis",
                 overflow: "hidden",
                 whiteSpace: "nowrap",
               }}
             >
-              {mozo.nombre}
+              {mozo.descripcion.substring(0, 40)}...
             </Typography>
           </Box>
         ))}
-      </Box>
-
-      <Box style={{ marginTop: "40px", textAlign: "center" }}>
-        <Typography
-          variant="h5"
-          style={{
-            fontWeight: "bold",
-            fontSize: "24px",
-            marginBottom: "10px",
-            marginLeft: "20px",
-          }}
-        >
-          Realizar Pedido
-        </Typography>
-        <Typography
-          variant="body1"
-          style={{
-            fontSize: "16px",
-            marginBottom: "30px",
-            marginLeft: "20px",
-          }}
-        >
-          Seleccione la categoría de su preferencia
-        </Typography>
       </Box>
 
       {/* Modal con detalles del mozo seleccionado */}
@@ -178,9 +172,22 @@ const HistoriasMozos = () => {
                 }}
               />
               <Typography variant="h5">{mozoSeleccionado.nombre}</Typography>
-              <Typography variant="body1" style={{ marginTop: "10px" }}>
+              <Typography variant="body1" style={{ marginTop: "10px", fontStyle: "italic" }}>
                 {mozoSeleccionado.descripcion}
               </Typography>
+              <IconButton
+                onClick={handleClose}
+                style={{
+                  position: "absolute",
+                  top: "10px",
+                  right: "10px",
+                  backgroundColor: "#ff4d4f",
+                  color: "#fff",
+                  borderRadius: "50%",
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
             </Paper>
           )}
         </Box>
